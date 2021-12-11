@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import "./App.css";
 import Add from "./components/Add";
@@ -182,7 +182,6 @@ function App() {
   const [people, setPeople] = useState<ComplexPerson[] | null>([]);
   const [peopleLength, setPeopleLength] = useState<number>(0);
   const [editPerson, setEditPerson] = useState<ComplexPerson | null>();
-  const firstLoad = useRef(true);
 
   const updateLinkedDiffs = ({
     diffArray,
