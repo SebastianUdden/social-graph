@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import List from "./List";
 import { SimplePerson } from "./Person";
+import { CommonWrapper } from "./SimpleComponents";
 
 interface Props {
   people: SimplePerson[];
@@ -9,24 +10,17 @@ interface Props {
 
 const People = ({ people, handleSelect }: Props) => {
   return (
-    <Wrapper>
+    <CommonWrapper>
       <Title>People</Title>
       {people.length !== 0 ? (
         <List list={people} handleSelect={handleSelect} />
       ) : (
         <Text>No results found...</Text>
       )}
-    </Wrapper>
+    </CommonWrapper>
   );
 };
 
-const Wrapper = styled.div`
-  background-color: #222;
-  padding: 30px;
-  border-radius: 12px;
-  margin: 20px;
-  color: #fff;
-`;
 const Title = styled.h1`
   margin: 0 0 14px;
 `;

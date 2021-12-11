@@ -8,15 +8,11 @@ import {
   SOCIAL_GRAPH_FILENAME,
   SOCIAL_GRAPH_LOCALSTORAGE,
 } from "../constants/constants";
+import { CommonWrapper } from "./SimpleComponents";
 
-const Wrapper = styled.div`
-  margin: 20px;
-  padding: 30px;
-  border-radius: 12px;
+const Wrapper = styled(CommonWrapper)`
   display: flex;
   flex-direction: column;
-  background-color: #222;
-  color: #fff;
 `;
 const Button = styled.button<{ disabled?: boolean }>`
   background-color: #666;
