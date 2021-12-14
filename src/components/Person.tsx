@@ -3,31 +3,13 @@ import Gift, { GiftProps } from "./Gift";
 import Job, { JobProps } from "./Job";
 import List from "./List";
 import { CommonWrapper } from "./SimpleComponents";
-
-const getAge = (birthdate: string) => {
-  const now = new Date();
-  const then = new Date(birthdate);
-
-  const diff = Math.abs(Number(now) - Number(then));
-  const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
-  return years;
-};
-
-const getDaysUntilBirthDate = (birthdate: string) => {
-  const now = new Date();
-  let then = new Date(`${now.getFullYear()}${birthdate.slice(4)}`);
-  if (then < now) {
-    then = new Date(`${now.getFullYear() + 1}${birthdate.slice(4)}`);
-  }
-  const diff = Math.abs(Number(now) - Number(then));
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  return days;
-};
+import { getAge, getDaysUntilBirthDate } from "./utils";
 
 export interface SimplePerson {
   id: string;
   name: string;
   hasBackup?: boolean;
+  extra?: string | number;
 }
 
 export interface ComplexPerson {

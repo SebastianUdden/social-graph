@@ -8,3 +8,9 @@ export const TYPES = [
   "Friend",
   "Colleague",
 ];
+
+export const FIRSTNAME = "Firstname";
+export const LASTNAME = "Lastname";
+export const AGE = "Age (Years)";
+export const NEXT_BIRTHDAY = "Days until birthday";
+export const BIRTHDAY = "Birthday";

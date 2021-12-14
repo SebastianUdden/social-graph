@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { cloudUpload } from "../svgs/cloud-upload";
 import { SimplePerson } from "./Person";
 import SVG from "./SVG";
-import { byName } from "./utils";
 
 interface Props {
   title?: string;
@@ -16,9 +15,9 @@ const List = ({ title, list, handleSelect }: Props) => (
     {title && <Title>{title}</Title>}
     <Graph>
       {list.length === 0 && (
-        <NoneText>No {title?.toLowerCase()} added...</NoneText>
+        <Opacity>No {title?.toLowerCase()} added...</Opacity>
       )}
-      {list.sort(byName).map((item?: SimplePerson) => (
+      {list.map((item?: SimplePerson) => (
         <Relation
           key={item?.id}
           onClick={() =>
@@ -29,6 +28,7 @@ const List = ({ title, list, handleSelect }: Props) => (
           {title === "People" && !item?.hasBackup && (
             <SVG size={12} {...cloudUpload} />
           )}
+          {item?.extra && <Opacity>{item.extra}</Opacity>}
         </Relation>
       ))}
     </Graph>
@@ -50,15 +50,15 @@ const Title = styled.h2`
   margin: 0;
 `;
 const Relation = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: #666;
   color: #fff;
   border: none;
   padding: 10px;
   width: 100%;
   margin: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   cursor: pointer;
   :hover {
@@ -68,7 +68,7 @@ const Relation = styled.button`
     background-color: #000;
   }
 `;
-const NoneText = styled.span`
+const Opacity = styled.span`
   opacity: 0.5;
 `;
 const Text = styled.span`

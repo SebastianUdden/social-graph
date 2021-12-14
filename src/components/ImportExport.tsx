@@ -89,9 +89,9 @@ const exportData = () => {
   localStorage.setItem(SOCIAL_GRAPH_LOCALSTORAGE, result);
   const now = new Date();
   const year = now.getUTCFullYear();
-  const month = addZero(now.getUTCMonth());
+  const month = addZero(now.getUTCMonth() + 1);
   const date = addZero(now.getUTCDate());
-  const hours = addZero(now.getUTCHours());
+  const hours = addZero(now.getUTCHours() + 1);
   const minutes = addZero(now.getUTCMinutes());
 
   createFile(

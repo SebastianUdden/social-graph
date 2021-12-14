@@ -6,7 +6,6 @@ import Heading from "./components/Heading";
 import ImportExport from "./components/ImportExport";
 import People from "./components/People";
 import Person, { ComplexPerson, SimplePerson } from "./components/Person";
-import { byName } from "./components/utils";
 import { SOCIAL_GRAPH_LOCALSTORAGE } from "./constants/constants";
 
 interface DiffResult {
@@ -314,7 +313,6 @@ function App() {
             }}
             onEdit={(person: ComplexPerson) => {
               setSelectedTab(0);
-              console.log({ person });
               setEditPerson(person);
             }}
             onDelete={(id: string) => {
@@ -324,18 +322,12 @@ function App() {
         )}
         {selectedTab === 2 && (
           <People
-            people={people
-              .map((p) => ({
-                id: p.id,
-                name: `${p.firstname} ${p.lastname}`,
-                hasBackup: p.hasBackup,
-              }))
-              .filter((p) => {
-                if (!searchQuery) return true;
-                if (p.name.includes(searchQuery)) return true;
-                return false;
-              })
-              .sort(byName)}
+            people={people.filter((p) => {
+              if (!searchQuery) return true;
+              if (p.firstname.toLowerCase().includes(searchQuery.toLowerCase()))
+                return true;
+              return false;
+            })}
             handleSelect={(value: string) => {
               setSelectionHistory([...selectionHistory, selectedPerson]);
               setSelectedPerson(
