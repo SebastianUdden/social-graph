@@ -1,9 +1,46 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Gift, { GiftProps } from "./Gift";
 import Job, { JobProps } from "./Job";
 import List from "./List";
 import { CommonWrapper } from "./SimpleComponents";
-import { getAge, getDaysUntilBirthDate } from "./utils";
+import { getAge, getDaysUntilBirthDate, simplifyPeople } from "./utils";
+
+const getSiblings = (
+  id: string,
+  parents: SimplePerson[],
+  people: ComplexPerson[]
+) => {
+  const siblings = people
+    .filter(
+      (p) =>
+        p.id !== id &&
+        p.parents.some((parent) =>
+          parents.some((par: any) => par.id === parent.id)
+        )
+    )
+    .map(simplifyPeople);
+  return siblings;
+};
+
+const getCousins = (parents: SimplePerson[], people: ComplexPerson[]) => {
+  const grandParents = people
+    .filter((p) =>
+      p.children.some((c) => parents.some((par) => par.id === c.id))
+    )
+    .map(simplifyPeople);
+
+  const parentsSiblings = people.filter(
+    (p) =>
+      !parents.some((par: any) => par.id === p.id) &&
+      p.parents.some((parent) =>
+        grandParents.some((gp: any) => gp.id === parent.id)
+      )
+  );
+
+  const cousins = parentsSiblings.map((ps) => ps.children).flat();
+  return cousins;
+};
 
 export interface SimplePerson {
   id: string;
@@ -34,6 +71,7 @@ export interface ComplexPerson {
   onEdit?: Function;
   onDelete?: Function;
   hasBackup?: boolean;
+  people?: ComplexPerson[];
 }
 
 const Person = ({
@@ -54,11 +92,21 @@ const Person = ({
   handleSelect,
   onEdit,
   onDelete,
+  people,
 }: ComplexPerson) => {
+  const [siblings, sebSiblings] = useState<any>([]);
+  const [cousins, setCousins] = useState<any>([]);
+
+  useEffect(() => {
+    const ppl = people || [];
+    sebSiblings(getSiblings(id, parents, ppl));
+    setCousins(getCousins(parents, ppl));
+  }, [id, parents, people]);
+
   if (!id) return <></>;
+
   const age = getAge(birthdate || "");
   const daysUntilBirthday = getDaysUntilBirthDate(birthdate || "");
-
   const handleEdit = () => {
     onEdit &&
       onEdit({
@@ -109,6 +157,12 @@ const Person = ({
       <Notes>{notes}</Notes>
       {parents.length !== 0 && (
         <List title="Parents" list={parents} handleSelect={handleSelect} />
+      )}
+      {siblings.length !== 0 && (
+        <List title="Siblings" list={siblings} handleSelect={handleSelect} />
+      )}
+      {cousins.length !== 0 && (
+        <List title="Cousins" list={cousins} handleSelect={handleSelect} />
       )}
       {significantOther.length !== 0 && (
         <List

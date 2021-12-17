@@ -6,6 +6,7 @@ import Heading from "./components/Heading";
 import ImportExport from "./components/ImportExport";
 import People from "./components/People";
 import Person, { ComplexPerson, SimplePerson } from "./components/Person";
+import { simplifyPeople } from "./components/utils";
 import { SOCIAL_GRAPH_LOCALSTORAGE } from "./constants/constants";
 
 interface DiffResult {
@@ -265,10 +266,7 @@ function App() {
       <Content>
         {selectedTab === 0 && (
           <Add
-            people={people.map((p) => ({
-              id: p.id,
-              name: `${p.firstname} ${p.lastname}`,
-            }))}
+            people={people.map(simplifyPeople)}
             editPerson={editPerson}
             onSave={(person: ComplexPerson) => {
               updateLinkedDiffs({
@@ -318,6 +316,7 @@ function App() {
             onDelete={(id: string) => {
               setPeople(people.filter((p) => p.id !== id));
             }}
+            people={people}
           />
         )}
         {selectedTab === 2 && (

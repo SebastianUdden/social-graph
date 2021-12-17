@@ -1,4 +1,5 @@
 import { AGE, BIRTHDAY, NEXT_BIRTHDAY } from "../constants/constants";
+import { ComplexPerson } from "./Person";
 
 export const sortBy = (type: string, isAscending: boolean, a: any, b: any) => {
   if (type === BIRTHDAY) {
@@ -65,3 +66,7 @@ export const getBirthdayDifference = (birthdate: string) => {
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   return days;
 };
+export const simplifyPeople = (p: ComplexPerson) => ({
+  id: p.id,
+  name: `${p.firstname} ${p.lastname}`,
+});
